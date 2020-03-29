@@ -13,6 +13,7 @@ abstract class BaseTest extends \Orchestra\Testbench\TestCase
 
         $this->artisan('migrate:fresh --force');
         $this->artisan('mesolite:install --force');
+        $this->artisan('db:seed', ['--class' => 'Mesolite\\Database\\Seeds\\CatSeeder']);
     }
 
     protected function getPackageProviders($app)

@@ -28,7 +28,8 @@
     },
     "autoload": {
         "psr-4" : {
-            "Mesolite\\" : "src/"
+            "Mesolite\\" : "src/",
+            "Mesolite\\Database\\Seeds\\": "database/seeds/"
         }
     },
     "autoload-dev": {
