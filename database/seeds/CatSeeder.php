@@ -136,6 +136,31 @@ class CatSeeder extends Seeder
 
         $api = config('amethyst.api.http.data.router.prefix');
 
+        // name, cat, global, 1
+        /*app('amethyst')->get('data-view')->link([
+            'name'    => '~cat~.feed',
+            'type'    => 'component',
+            'tag'     => 'cat',
+            'require' => 'cat',
+            'config'  => Yaml::dump([
+                'label'   => 'feed',
+                'extends' => "resource-execute",
+                'type'    => 'action',
+                'scope'   => 'resource',
+                'options' => [
+                    'http' => [
+                        'method' => 'POST',
+                        'url' => $api."/workflow/execute",
+                        'query' => "id eq {$workflow->id}",
+                        'body' => [
+                            'id' => "{{ resource.id }}"
+                        ]
+                    ]
+                ]
+            ]),
+            'parent_id' => app('amethyst')->get('data-view')->getRepository()->findOneBy(['name' => '~cat~.data.iterator.table'])
+        ])->getResource();*/
+
         app('amethyst')->get('data-view')->findOrCreateOrFail([
             'name'    => '~cat~.feed',
             'type'    => 'component',
@@ -184,18 +209,6 @@ class CatSeeder extends Seeder
                 'description' => '{{ resource.description }}',
             ]
         ]);
-
-        $node = $node->next('notification', [
-            'agent' => [
-                'data' => 'user',
-                'filter' => 'id = {{ __agent.id }}'
-            ],
-            'message'    => 'The file is ready! Click here to download it',
-            'vars'      => [
-                'url' => "{{ file.media[0].getFullUrl() }}"
-            ]
-        ]);
-
         $api = config('amethyst.api.http.data.router.prefix');
         
         app('amethyst')->get('data-view')->findOrCreateOrFail([
