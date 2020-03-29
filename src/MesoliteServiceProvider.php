@@ -21,7 +21,6 @@ class MesoliteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(\Amethyst\Providers\AccountServiceProvider::class);
         $this->app->register(\Amethyst\Providers\ActionServiceProvider::class);
         $this->app->register(\Amethyst\Providers\AttributeSchemaServiceProvider::class);
         $this->app->register(\Amethyst\Providers\AuthenticationServiceProvider::class);
