@@ -199,10 +199,7 @@ class CatSeeder extends Seeder
             'data'       => 'cat',
             'filter'     => '',
             'filename'   => 'cat.csv',
-        ], [
-            'file' => 'file',
-            '__agent' => '__agent'
-        ], [
+        ], [], [
             'body' => [
                 'id' => '{{ resource.id }}',
                 'name' => '{{ resource.name }}',
