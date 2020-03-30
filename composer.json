@@ -10,6 +10,7 @@
         "amethyst/authentication": "0.2.*",
         "amethyst/data-schema": "0.2.*",
         "amethyst/data-view": "0.2.*",
+        "amethyst/data-view-action": "0.2.*",
         "amethyst/group": "0.2.*",
         "amethyst/owner": "0.2.*",
         "amethyst/permission": "0.2.*",
