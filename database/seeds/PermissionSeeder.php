@@ -5,6 +5,7 @@ namespace Mesolite\Database\Seeds;
 use Illuminate\Database\Seeder;
 use Amethyst\Models\RelationSchema;
 use Symfony\Component\Yaml\Yaml;
+use Amethyst\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
@@ -15,6 +16,30 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        app('amethyst')->get('permission')->findOrCreateOrFail([
+            'type' => 'route',
+            'effect' => 'allow',
+            'payload' => Yaml::dump([
+                'url' => [
+                    '/',
+                    '/api',
+                    '/api/auth',
+                    '/api/auth/(.*)',
+                    '/oauth/(.*)',
+                    '/broadcasting/auth'
+                ]
+            ])
+        ]);
+
+        app('amethyst')->get('permission')->findOrCreateOrFail([
+            'type' => 'route',
+            'effect' => 'allow',
+            'payload' => Yaml::dump([
+                'url' => '*'
+            ]),
+            'agent' => "{{ agent.id }} == 1"
+        ]);
+        
         RelationSchema::firstOrCreate([
             'name'   => 'groups',
             'type'   => 'MorphToMany',
