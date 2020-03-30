@@ -161,28 +161,14 @@ class CatSeeder extends Seeder
             'parent_id' => app('amethyst')->get('data-view')->getRepository()->findOneBy(['name' => '~cat~.data.iterator.table'])
         ])->getResource();*/
 
-        app('amethyst')->get('data-view')->findOrCreateOrFail([
-            'name'    => '~cat~.feed',
-            'type'    => 'component',
-            'tag'     => 'cat',
-            'require' => 'cat',
-            'config'  => Yaml::dump([
-                'label'   => 'feed',
-                'extends' => "resource-execute",
-                'type'    => 'action',
-                'scope'   => 'resource',
-                'options' => [
-                    'http' => [
-                        'method' => 'POST',
-                        'url' => $api."/workflow/execute",
-                        'query' => "id eq {$workflow->id}",
-                        'body' => [
-                            'id' => "{{ resource.id }}"
-                        ]
-                    ]
-                ]
-            ]),
-            'parent_id' => app('amethyst')->get('data-view')->getRepository()->findOneBy(['name' => '~cat~.data.iterator.table'])
+        app('amethyst')->get('data-view-action')->findOrCreateOrFail([
+            'name'    => 'feed',
+            'data' => 'cat',
+            'scope' => 'resource',
+            'workflow_id' => $workflow->id,
+            'body' => Yaml::dump([
+                'id' => '{{ resource.id }}'
+            ])
         ])->getResource();
 
         $this->seedExport();
@@ -206,30 +192,11 @@ class CatSeeder extends Seeder
                 'description' => '{{ resource.description }}',
             ]
         ]);
-        $api = config('amethyst.api.http.data.router.prefix');
-        
-        app('amethyst')->get('data-view')->findOrCreateOrFail([
-            'name'    => '~cat~.export',
-            'type'    => 'component',
-            'tag'     => 'cat',
-            'require' => 'cat',
-            'config'  => Yaml::dump([
-                'label'   => 'export',
-                'extends' => "resource-execute",
-                'type'    => 'action',
-                'scope'   => 'global',
-                'options' => [
-                    'http' => [
-                        'method' => 'POST',
-                        'url' => $api."/workflow/execute",
-                        'query' => "id eq {$workflow->id}",
-                        'body' => [
-                            'queue' => 1
-                        ]
-                    ]
-                ]
-            ]),
-            'parent_id' => app('amethyst')->get('data-view')->getRepository()->findOneBy(['name' => '~cat~.data.iterator.table'])
+        app('amethyst')->get('data-view-action')->findOrCreateOrFail([
+            'name'    => 'export',
+            'data' => 'cat',
+            'scope' => 'global',
+            'workflow_id' => $workflow->id
         ])->getResource();
     }
 }
