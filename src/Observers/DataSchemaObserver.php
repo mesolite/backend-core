@@ -77,6 +77,6 @@ class DataSchemaObserver
     {
         app('amethyst.data-view')->removeByName($dataSchema->name);
         app('amethyst')->get('relation-schema')->getRepository()->newQuery()->where('data', $dataSchema->name)->delete();
-        app('amethyst')->get('attribute')->getRepository()->newQuery()->where('model', $dataSchema->name)->delete();
+        app('amethyst')->get('attribute-schema')->getRepository()->newQuery()->where('model', $dataSchema->name)->delete();
     }
 }
