@@ -20,4 +20,14 @@ class DataViewObserver
     {
         TriggerEvent::dispatch(new DataViewFlush)->delay(now()->addSeconds(5));
     }
+
+    /**
+     * Handle the DataView "deleted" event.
+     *
+     * @param \Amethyst\Models\DataView $dataView
+     */
+    public function deleted(DataView $dataView)
+    {
+        TriggerEvent::dispatch(new DataViewFlush)->delay(now()->addSeconds(5));
+    }
 }
