@@ -17,4 +17,14 @@ class DataViewFlush implements ShouldBroadcast
     {
     	return new PresenceChannel('global');
     }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'data-view.flush';
+    }
 }
