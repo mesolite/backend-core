@@ -31,6 +31,17 @@ class PermissionSeeder extends Seeder
             ])
         ]);
 
+        // allow everything user id 1
+        app('amethyst')->get('permission')->findOrCreate([
+            'effect'  => 'allow',
+            'type'    => 'data',
+            'payload' => Yaml::dump([
+                'data'   => '*',
+                'action' => '*',
+            ]),
+            'agent' => '{{ agent.id }} == 1',
+        ])->getResource();
+
         app('amethyst')->get('permission')->findOrCreateOrFail([
             'type' => 'route',
             'effect' => 'allow',
@@ -39,7 +50,35 @@ class PermissionSeeder extends Seeder
             ]),
             'agent' => "{{ agent.id }} == 1"
         ]);
+
+        app('amethyst')->get('permission')->findOrCreate([
+            'effect'  => 'allow',
+            'type'    => 'data',
+            'payload' => Yaml::dump([
+                'data'   => '*',
+                'action' => '*',
+            ]),
+            'agent' => "{{ agent.groups.where('name', 'admin').count() }} > 0",
+        ])->getResource();
         
+        app('amethyst')->get('permission')->findOrCreateOrFail([
+            'type' => 'route',
+            'effect' => 'allow',
+            'payload' => Yaml::dump([
+                'url' => '*'
+            ]),
+            'agent' => "{{ agent.groups.where('name', 'admin').count() }} > 0"
+        ]);
+
+        app('amethyst')->get('permission')->findOrCreateOrFail([
+            'type' => 'route',
+            'effect' => 'allow',
+            'payload' => Yaml::dump([
+                'url' => '*'
+            ]),
+            'agent' => "{{ agent.groups.where('name', 'can-access-admin').count() }} > 0"
+        ]);
+
         RelationSchema::firstOrCreate([
             'name'   => 'groups',
             'type'   => 'MorphToMany',
@@ -64,10 +103,12 @@ class PermissionSeeder extends Seeder
         ]);
 
         $group = \Amethyst\Models\Group::create([
-            'name' => 'can-access-admin'
+            'name' => 'admin'
         ]);
 
-        \App\Models\User::where('id', 1)->first()->groups()->attach($group->id);
+        $group = \Amethyst\Models\Group::create([
+            'name' => 'can-access-admin'
+        ]);
 
         app('amethyst')->getData()->map(function ($data, $key) {
             RelationSchema::firstOrCreate([
@@ -79,5 +120,27 @@ class PermissionSeeder extends Seeder
                 ])
             ]);
         });
+
+        RelationSchema::firstOrCreate([
+            'name'   => 'ownership',
+            'type'   => 'MorphMany',
+            'data' => 'user',
+            'payload' => Yaml::dump([
+                'target' => 'ownable',
+                'inverse' => true,
+                'inversedBy' => 'ownables',
+                'morphType' => 'owner'
+            ])
+        ]);
+
+        app('amethyst')->get('permission')->createOrFail([
+            'effect'  => 'allow',
+            'type'    => 'data',
+            'payload' => Yaml::dump([
+                'data'   => '*',
+                'action' => 'query',
+                'filter' => 'ownables.owner_id = {{ agent.id }}',
+            ]),
+        ]);
     }
 }
