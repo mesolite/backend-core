@@ -39,6 +39,7 @@ class Install extends Command
             return;
         }
 
+        $this->call('vendor:publish', ['--tag' => 'assets']);
         $this->call('passport:install');
         $this->call('cache:clear');
         $this->call('mapper:generate');
