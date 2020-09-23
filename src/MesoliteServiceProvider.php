@@ -44,7 +44,7 @@ class MesoliteServiceProvider extends ServiceProvider
     public function boot()
     {
         app('amethyst.data-schema')->boot();
-        app('amethyst.attributable')->boot();
+        app('amethyst.attribute-schema')->boot();
         app('amethyst.relation-schema')->boot();
         app('eloquent.mapper')->boot();
 
