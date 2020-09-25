@@ -13,6 +13,7 @@ use Mesolite\Observers\DataSchemaObserver;
 use Mesolite\Observers\RelationSchemaObserver;
 use Mesolite\Observers\AttributeSchemaObserver;
 use Mesolite\Observers\DataViewObserver;
+use Mesolite\Observers\OwnableWithDataSchemaObserver;
 
 class MesoliteServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,6 @@ class MesoliteServiceProvider extends ServiceProvider
         $this->app->register(\Amethyst\Providers\ConfigServiceProvider::class);
         $this->app->register(\Amethyst\Providers\DataSchemaServiceProvider::class);
         $this->app->register(\Amethyst\Providers\DataViewServiceProvider::class);
-        $this->app->register(\Amethyst\Providers\GroupServiceProvider::class);
         $this->app->register(\Amethyst\Providers\OwnerServiceProvider::class);
         $this->app->register(\Amethyst\Providers\PermissionServiceProvider::class);
         $this->app->register(\Amethyst\Providers\RelationSchemaServiceProvider::class);
@@ -50,6 +50,7 @@ class MesoliteServiceProvider extends ServiceProvider
         
         AttributeSchema::observe(AttributeSchemaObserver::class);
         DataSchema::observe(DataSchemaObserver::class);
+        DataSchema::observe(OwnableWithDataSchemaObserver::class);
         RelationSchema::observe(RelationSchemaObserver::class);
         DataView::observe(DataViewObserver::class);
 
