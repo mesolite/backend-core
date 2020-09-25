@@ -4,6 +4,7 @@ namespace Mesolite\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Symfony\Component\Yaml\Yaml;
+use Illuminate\Support\Facades\DB;
 
 class CatSeeder extends Seeder
 {
@@ -13,6 +14,20 @@ class CatSeeder extends Seeder
      * @return void
      */
     public function run()
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->seedCat();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        DB::commit();
+    }
+
+    public function seedCat()
     {
         app('amethyst')->get('data-schema')->createOrFail([
             'name' => 'cat',

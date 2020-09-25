@@ -15,49 +15,30 @@ class ConfigSeeder extends Seeder
      */
     public function run()
     {   
-        app('amethyst')->get('config')->createOrFail([
+        $resource = app('amethyst')->get('config')->createOrFail([
             'key' => 'app.name',
-            'value' => 'Mesolite',
-            'visibility' => 'public'
-        ]);
+            'value' => 'Mesolite'
+        ])->getResource();
+
+        $resource->policies()->save(app('amethyst')->get('policy')->getRepository()->findOneBy(['name' => 'public']));
 
         $filename = resource_path("logo.png");
 
-        $result = app('amethyst')->get('file')->createOrFail([
+        $resource = app('amethyst')->get('file')->createOrFail([
             'name'   => 'app.'.basename($filename),
-            'public' => 1,
-        ]);
+            'public' => 1
+        ])->getResource();
 
-        $resource = $result->getResource();
         $resource
             ->addMedia($filename)
             ->preservingOriginal()
             ->toMediaCollection('app');
 
-        app('amethyst')->get('config')->createOrFail([
+        $resource = app('amethyst')->get('config')->createOrFail([
             'key' => 'app.logo',
-            'value' => $resource->getFullUrl(),
-            'visibility' => 'public'
-        ]);
+            'value' => $resource->getFullUrl()
+        ])->getResource();
 
-        // Allow anyone to see the route file stream
-        app('amethyst')->get('permission')->findOrCreateOrFail([
-            'type' => 'route',
-            'effect' => 'allow',
-            'payload' => Yaml::dump([
-                'url' => '/api/data/config'
-            ]),
-        ]);
-
-        // Allow anyone to see files that have public set to 1
-        app('amethyst')->get('permission')->findOrCreateOrFail([
-            'type' => 'data',
-            'effect' => 'allow',
-            'payload' => Yaml::dump([
-                'data' => 'config',
-                'action' => 'query',
-                'filter' => 'visibility eq "public"'
-            ]),
-        ]);
+        $resource->policies()->save(app('amethyst')->get('policy')->getRepository()->findOneBy(['name' => 'public']));
     }
 }

@@ -4,7 +4,7 @@
     "keywords": ["laravel", "mesolite-core"],
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.1",
         "amethyst/action": "0.2.*",
         "amethyst/config": "0.2.*",
         "amethyst/attribute-schema": "0.2.*",
@@ -12,7 +12,6 @@
         "amethyst/data-schema": "0.2.*",
         "amethyst/data-view": "0.2.*",
         "amethyst/data-view-action": "0.2.*",
-        "amethyst/group": "0.2.*",
         "amethyst/owner": "0.2.*",
         "amethyst/permission": "0.2.*",
         "amethyst/relation-schema": "0.2.*",
@@ -21,8 +20,7 @@
         "barryvdh/laravel-cors": "^0.11.2",
         "matthewbdaly/laravel-etag-middleware": "^1.2",
         "swooletw/laravel-swoole": "^2.5",
-        "mingalevme/illuminate-uqueue": "^1.1",
-        "imanghafoori/eloquent-relativity": "dev-dev-non-static"
+        "mingalevme/illuminate-uqueue": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
@@ -47,11 +45,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:railken/eloquent-relativity.git"
-        }
-    ]
+    "prefer-stable": true
 }
