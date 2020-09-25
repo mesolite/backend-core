@@ -43,6 +43,8 @@ class AttributeSchemaObserver
 
             if ($attributeSchema->$field !== $oldField) {
                 app('amethyst.data-view')->regenerateAttributeByName($attributeSchema->model, $attributeSchema->name);
+
+                break;
             }
         }
     }

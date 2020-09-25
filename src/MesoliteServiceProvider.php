@@ -47,10 +47,11 @@ class MesoliteServiceProvider extends ServiceProvider
         app('amethyst.attribute-schema')->boot();
         app('amethyst.relation-schema')->boot();
         app('eloquent.mapper')->boot();
-
+        
+        AttributeSchema::observe(AttributeSchemaObserver::class);
         DataSchema::observe(DataSchemaObserver::class);
         RelationSchema::observe(RelationSchemaObserver::class);
-        AttributeSchema::observe(AttributeSchemaObserver::class);
         DataView::observe(DataViewObserver::class);
+
     }
 }
